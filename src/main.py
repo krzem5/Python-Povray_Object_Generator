@@ -57,6 +57,8 @@ def load(fp,x,y,z):
 
 
 def write(*dt):
+	def _flt(v):
+		return ("%.4f"%v).rstrip("0").rstrip(".")
 	il=[]
 	nil=[]
 	vhl=[]
@@ -84,9 +86,37 @@ def write(*dt):
 	tx0="texture {\n\t\t\tpigment {\n\t\t\t\trgb<"
 	tx1=">\n\t\t\t}\n\t\t}"
 	tx2=",\n\t\t"
-	return f"mesh2 {{\n\tvertex_vectors {{\n\t\t{len(gvl)},\n\t\t{','.join(['<'+str(e[0])+','+str(e[1])+','+str(e[2])+'>' for e in gvl])}\n\t}}\n\tnormal_vectors {{\n\t\t{len(gvl)},\n\t\t{','.join(['<'+str(e[3])+','+str(e[4])+','+str(e[5])+'>' for e in gvl])}\n\t}}\n\ttexture_list{{\n\t\t{len(txl)},\n\t\t{tx2.join([tx0+str(e[0])+','+str(e[1])+','+str(e[2])+tx1 for e in txl])}\n\t}}\n\tface_indices {{\n\t\t{len(il)},\n\t\t{','.join(['<'+str(e[0])+','+str(e[1])+','+str(e[2])+'>,'+str(e[3]) for e in il])}\n\t}}\n}}"
+	return f"mesh2 {{\n\tvertex_vectors {{\n\t\t{len(gvl)},\n\t\t{','.join(['<'+_flt(e[0])+','+_flt(e[1])+','+_flt(e[2])+'>' for e in gvl])}\n\t}}\n\tnormal_vectors {{\n\t\t{len(gvl)},\n\t\t{','.join(['<'+_flt(e[3])+','+_flt(e[4])+','+_flt(e[5])+'>' for e in gvl])}\n\t}}\n\ttexture_list{{\n\t\t{len(txl)},\n\t\t{tx2.join([tx0+_flt(e[0])+','+_flt(e[1])+','+_flt(e[2])+tx1 for e in txl])}\n\t}}\n\tface_indices {{\n\t\t{len(il)},\n\t\t{','.join(['<'+_flt(e[0])+','+_flt(e[1])+','+_flt(e[2])+'>,'+_flt(e[3]) for e in il])}\n\t}}\n}}"
 
 
 
-print("#version 3.6\n\n\n\nglobal_settings {\n\tassumed_gamma 1.0\n}\ncamera {\n\tlocation <0,5,25>\n\tright x*image_width/image_height\n\tangle 90\n\tlook_at <0,0,0>\n}\nplane {\n\tz,-1000\n\tpigment {\n\t\trgb<0.498039,0.784313,1>\n\t}\n}\nlight_source {\n\t<0,0,-10> rgb<1,1,1>\n}\nlight_source {\n\t<10,50,30> rgb<0.960784,0.941176,0.607843>\n\tfade_distance 100\n\tfade_power 1\n\tspotlight\n}\nfog {\n\trgb<0.95,0.95,0.95> distance 2000\n}")
-print(write(load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Cloud2.obj",20,10,-10),load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Cloud1.obj",-10.5,6.5,-10),load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Pipe.obj",0,0,0),load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_TopRight.obj",4,-1,0),load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_TopMiddle.obj",2,-1,0),load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_TopMiddle.obj",0,-1,0),load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_TopLeft.obj",-2,-1,0),load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_CenterRight.obj",4,-3,0),load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_CenterMiddle.obj",2,-3,0),load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_CenterMiddle.obj",0,-3,0),load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_CenterLeft.obj",-2,-3,0),load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_BottomRight.obj",4,-5,0),load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_BottomMiddle.obj",2,-5,0),load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_BottomMiddle.obj",0,-5,0),load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_BottomLeft.obj",-2,-5,0),load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Rock2.obj",4,0,0)))
+print("#version 3.6\n\n\n\nglobal_settings {\n\tassumed_gamma 1.0\n}\ncamera {\n\tlocation <2,5,25>\n\tright x*image_width/image_height\n\tangle 90\n\tlook_at <2,0,0>\n}\nplane {\n\tz,-1000\n\tpigment {\n\t\trgb<0.498039,0.784313,1>\n\t}\n}\nlight_source {\n\t<0,0,-10> rgb<1,1,1>\n}\nlight_source {\n\t<7.5,60,35> rgb<0.960784,0.941176,0.607843>*1.5\n\tfade_distance 150\n\tfade_power 1.5\n\tspotlight\n}\nfog {\n\trgb<0.95,0.95,0.95> distance 5000\n}")
+print(write(
+	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Cloud2.obj",20,10,-10),
+	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Cloud1.obj",-6.5,6.5,-10),
+	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_TopRight.obj",4,-1,0),
+	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_TopMiddle.obj",2,-1,0),
+	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_TopMiddle.obj",0,-1,0),
+	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_TopLeft.obj",-2,-1,0),
+	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_CenterRight.obj",4,-3,0),
+	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_CenterMiddle.obj",2,-3,0),
+	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_CenterMiddle.obj",0,-3,0),
+	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_CenterLeft.obj",-2,-3,0),
+	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_BottomRight.obj",4,-5,0),
+	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_BottomMiddle.obj",2,-5,0),
+	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_BottomMiddle.obj",0,-5,0),
+	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_BottomLeft.obj",-2,-5,0),
+	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Pipe.obj",0,0,0),
+	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Grass.obj",-2,0,0),
+	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Rock2.obj",4,0,0),
+	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_TopRight.obj",-8,2,0),
+	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_TopLeft.obj",-10,2,0),
+	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_BottomRight.obj",-8,0,0),
+	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_BottomLeft.obj",-10,0,0),
+	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Sign_Right.obj",-8,3,0),
+	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Tree2.obj",-10,2,0),
+	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/MovingPlatform_Long.obj",15,-5,0),
+	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Ladder_long.obj",13,-4.3,0),
+	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Spikes_Platform.obj",15,-4.5,0),
+	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Lever.obj",17,-4,0),
+))
