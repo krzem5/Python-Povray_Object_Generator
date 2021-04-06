@@ -60,7 +60,6 @@ def write(*dt):
 	def _flt(v):
 		return ("%.4f"%v).rstrip("0").rstrip(".")
 	il=[]
-	nil=[]
 	vhl=[]
 	gvl=[]
 	txl=[]
