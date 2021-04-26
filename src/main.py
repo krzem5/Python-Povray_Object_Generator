@@ -4,6 +4,8 @@ import os
 
 
 def load(fp,x,y,z):
+	def _flt(v):
+		return ("%.4f"%v).rstrip("0").rstrip(".")
 	vl=[]
 	nl=[]
 	fl=[]
@@ -52,7 +54,19 @@ def load(fp,x,y,z):
 				c_tx=b" ".join(k[1:])
 			else:
 				raise RuntimeError(str(k))
+	for i,k in enumerate(vl):
+		vl[i]=(_flt(k[0]),_flt(k[1]),_flt(k[2]))
 	return (vl,nl,fl,txnml,txl)
+
+
+
+def move(e,dx,dy,dz,fc):
+	def _flt(v):
+		return ("%.4f"%v).rstrip("0").rstrip(".")
+	vl=e[0]
+	for i,k in enumerate(vl):
+		vl[i]=((f"{k[0]}+clock*{_flt(dx/fc)}" if dx!=0 else k[0]),(f"{k[1]}+clock*{_flt(dy/fc)}" if dy!=0 else k[1]),(f"{k[2]}+clock*{_flt(dz/fc)}" if dz!=0 else k[2]))
+	return (vl,*e[1:])
 
 
 
@@ -85,13 +99,13 @@ def write(*dt):
 	tx0="texture {\n\t\t\tpigment {\n\t\t\t\trgb<"
 	tx1=">\n\t\t\t}\n\t\t}"
 	tx2=",\n\t\t"
-	return f"mesh2 {{\n\tvertex_vectors {{\n\t\t{len(gvl)},\n\t\t{','.join(['<'+_flt(e[0])+','+_flt(e[1])+','+_flt(e[2])+'>' for e in gvl])}\n\t}}\n\tnormal_vectors {{\n\t\t{len(gvl)},\n\t\t{','.join(['<'+_flt(e[3])+','+_flt(e[4])+','+_flt(e[5])+'>' for e in gvl])}\n\t}}\n\ttexture_list{{\n\t\t{len(txl)},\n\t\t{tx2.join([tx0+_flt(e[0])+','+_flt(e[1])+','+_flt(e[2])+tx1 for e in txl])}\n\t}}\n\tface_indices {{\n\t\t{len(il)},\n\t\t{','.join(['<'+_flt(e[0])+','+_flt(e[1])+','+_flt(e[2])+'>,'+_flt(e[3]) for e in il])}\n\t}}\n}}"
+	return f"mesh2 {{\n\tvertex_vectors {{\n\t\t{len(gvl)},\n\t\t{','.join(['<'+e[0]+','+e[1]+','+e[2]+'>' for e in gvl])}\n\t}}\n\tnormal_vectors {{\n\t\t{len(gvl)},\n\t\t{','.join(['<'+_flt(e[3])+','+_flt(e[4])+','+_flt(e[5])+'>' for e in gvl])}\n\t}}\n\ttexture_list{{\n\t\t{len(txl)},\n\t\t{tx2.join([tx0+_flt(e[0])+','+_flt(e[1])+','+_flt(e[2])+tx1 for e in txl])}\n\t}}\n\tface_indices {{\n\t\t{len(il)},\n\t\t{','.join(['<'+_flt(e[0])+','+_flt(e[1])+','+_flt(e[2])+'>,'+_flt(e[3]) for e in il])}\n\t}}\n}}"
 
 
 
 print("#version 3.6\n\n\n\nglobal_settings {\n\tassumed_gamma 1.0\n}\ncamera {\n\tlocation <2,5,25>\n\tright x*image_width/image_height\n\tangle 90\n\tlook_at <2,0,0>\n}\nplane {\n\tz,-1000\n\tpigment {\n\t\trgb<0.498039,0.784313,1>\n\t}\n}\nlight_source {\n\t<0,0,-10> rgb<1,1,1>\n}\nlight_source {\n\t<7.5,60,35> rgb<0.960784,0.941176,0.607843>*1.5\n\tfade_distance 150\n\tfade_power 1.5\n\tspotlight\n}\nfog {\n\trgb<0.95,0.95,0.95> distance 5000\n}")
 print(write(
-	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Cloud2.obj",20,10,-10),
+	move(load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Cloud2.obj",20,10,-10),-40,0,0,120),
 	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Cloud1.obj",-6.5,6.5,-10),
 	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_TopRight.obj",4,-1,0),
 	load("D:/K/Assets/quaterius/out/Platformer Pack/Platformer Pack - Nov 2018/OBJ/Platform_TopMiddle.obj",2,-1,0),
